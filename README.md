@@ -179,4 +179,4 @@ gradlew test
 
 ## License
 
-MIT © 2025 Your Name
+MIT © 2025 Pedro Pascoal
