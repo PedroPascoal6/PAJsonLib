@@ -1,4 +1,4 @@
-![Diagram drawio](https://github.com/user-attachments/assets/5eacce8b-bb42-4a6e-95ae-d2bed965bbc3)# Advanced Programming Project 2024/2025
+# Advanced Programming Project 2024/2025
 
 This repository contains two Kotlin modules for the Advanced Programming course:
 
