@@ -1,4 +1,4 @@
-![Diagram drawio](https://github.com/user-attachments/assets/0624bcfa-184a-4c71-bf0c-9c3d844b0733)# Advanced Programming Project 2024/2025
+![Diagram drawio](https://github.com/user-attachments/assets/5eacce8b-bb42-4a6e-95ae-d2bed965bbc3)# Advanced Programming Project 2024/2025
 
 This repository contains two Kotlin modules for the Advanced Programming course:
 
@@ -167,7 +167,7 @@ gradlew test
 
 ## UML Class Diagram
 
-![Diagram drawio](https://github.com/user-attachments/assets/f9024fb1-7dfa-4301-9e76-728566dceac6)
+![Diagram drawio](assets/Diagram.drawio.png)
 
 
 ## Release
