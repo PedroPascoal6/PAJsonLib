@@ -24,13 +24,7 @@ class ObjectModelTest {
 
         // when: serialize to JSON string
         val jsonStr = jsonObject.toJsonString()
-
-        // then: string starts with '{' and ends with '}', and contains expected substrings
-        assertTrue(jsonStr.startsWith("{") && jsonStr.endsWith("}"))
-        assertTrue(jsonStr.contains("\"name\":"))
-        assertTrue(jsonStr.contains("\"Alice\""))
-        assertTrue(jsonStr.contains("\"age\":"))
-        assertTrue(jsonStr.contains("30"))
+        assertEquals("{\"name\": \"Alice\", \"age\": 30}", jsonStr)
     }
 
     /**

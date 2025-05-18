@@ -150,11 +150,11 @@ class GetJson(vararg controllers: KClass<*>) {
      */
     private fun convert(raw: String, param: KParameter): Any {
         return when (param.type.classifier as KClass<*>) {
-            Int::class    -> raw.toInt()
+            Int::class -> raw.toInt()
             Double::class -> raw.toDouble()
             Boolean::class-> raw.toBoolean()
             String::class -> raw
-            else          -> error("Unsupported type for parameter `${'$'}{param.name}`: ${'$'}{param.type}")
+            else -> error("Unsupported type for parameter `${'$'}{param.name}`: ${'$'}{param.type}")
         }
     }
 

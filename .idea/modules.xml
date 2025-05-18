@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/PAJsonLib.iml" filepath="$PROJECT_DIR$/.idea/PAJsonLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PAJsonLib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PAJsonLib.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PAJsonLib.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PAJsonLib.test.iml" />
     </modules>
   </component>
 </project>

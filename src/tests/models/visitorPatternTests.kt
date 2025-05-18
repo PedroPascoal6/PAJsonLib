@@ -120,7 +120,7 @@ class VisitorPatternTest {
     fun testAcceptJsonExtension() {
         data class DC(val flag: Boolean)
         val visitor = CountingVisitor()
-        DC(true).acceptJson(visitor) // uses JsonMapper by default
+        DC(true).acceptJson(visitor)
         assertEquals(1, visitor.objectCount)
         assertEquals(1, visitor.booleanCount)
     }

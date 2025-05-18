@@ -21,11 +21,7 @@ class ArrayModelTest {
         // when: serialize to JSON string
         val jsonStr = jsonArray.toJsonString()
 
-        // then: string starts with '[' and ends with ']', and contains the correct representations
-        assertTrue(jsonStr.startsWith("[") && jsonStr.endsWith("]"))
-        assertTrue(jsonStr.contains("1"))
-        assertTrue(jsonStr.contains("\"two\""))
-        assertTrue(jsonStr.contains("null"))
+        assertEquals("[1, \"two\", null]", jsonStr )
     }
 
     /**
