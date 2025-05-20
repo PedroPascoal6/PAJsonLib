@@ -94,52 +94,74 @@ gradlew.bat test
 
 ---
 
-## Part 2: GetJson HTTP Framework
+## Part 2: Express HTTP Framework
 
 ### Overview
 
-A lightweight Kotlin framework that:
+A lightweight Kotlin framework for quickly creating HTTP API endpoints, fully integrated with the JSON Manipulation Library. It exposes endpoints via annotated Kotlin classes and methods, automatically handles path segments and query parameters, and serializes responses into JSON.
 
-* Exposes `@Mapping`-annotated classes and methods as HTTP GET endpoints
-* Binds path segments (`@Path`) and query parameters (`@Param`) into function arguments
-* Serializes return values via the JSON library above
+### Key Features
 
-No external dependencies are used, except JUnit for testing. The framework relies solely on the Kotlin and Java standard libraries.
+* **Annotation-driven routing**: Methods annotated with `@Mapping` become HTTP endpoints.
+* **Parameter binding**: Supports binding of path variables (`@Path`), query parameters (`@Param`), and request bodies (`@Body`).
+* **JSON serialization**: Responses are serialized using the integrated JSON library.
+* **Error handling**: Automatically handles HTTP errors and serializes them into structured JSON responses, including error type and message.
 
-### Usage Example
+### Available Endpoints
+
+| HTTP Method | Path                       | Description                                                           | Example Response                 |
+| ----------- | -------------------------- | --------------------------------------------------------------------- | -------------------------------- |
+| POST        | `/api/odd`                 | Receives a JSON array, returns only odd integer numbers.              | `[1,3,5]`                        |
+| POST        | `/api/ints`                | Receives a JSON array, returns only integer numbers.                  | `[1,2,3]`                        |
+| POST        | `/api/pair`                | Returns a static JSON object representing a pair.                     | `{"first":"one","second":"two"}` |
+| POST        | `/api/path/{pathVar}`      | Returns the provided path variable appended with an exclamation mark. | `"example!"`                     |
+| POST        | `/api/args?n={n}&text={t}` | Returns a JSON object mapping `text` to itself repeated `n` times.    | `{"PA":"PAPAPA"}`                |
+
+### Example Usage
+
+**Server Initialization:**
 
 ```kotlin
 fun main() {
   val app = GetJson(Controller::class)
   app.start(8080)
 }
+```
 
-// Controller.kt
-@Mapping("api")
+**Defining Controller Endpoints:**
+
+```kotlin
+@Mapping("api", "POST")
 class Controller {
-  @Mapping("ints")
-  fun ints(): JsonArray = listOf(1,2,3,4,5).toJsonValue() as JsonArray
 
-  @Mapping("pair")
-  fun pair(): Pair<String,String> = Pair("one","two")
+  @Mapping(value = "odd", method = "POST")
+  fun odd(@Body input: JsonValue): JsonArray { /* implementation */ }
 
-  @Mapping("path/{id}")
-  fun path(@Path id: String): String = id + "!"
+  @Mapping(value = "ints", method = "POST")
+  fun ints(@Body input: JsonValue): JsonArray { /* implementation */ }
 
-  @Mapping("args")
-  fun args(@Param n: Int, @Param text: String): JsonValue =
-    JsonObject(mapOf(text to JsonString(text.repeat(n))))
+  @Mapping("pair", "POST")
+  fun pair(): JsonObject { /* implementation */ }
+
+  @Mapping("path/{pathVar}", "POST")
+  fun path(@Path pathVar: String): String { /* implementation */ }
+
+  @Mapping("args", "POST")
+  fun args(@Param n: Int, @Param text: String): JsonValue { /* implementation */ }
 }
 ```
 
-Available endpoints:
+### Error Handling
 
-| Path                    | Response                             |
-| ----------------------- | ------------------------------------ |
-| `/api/ints`             | `[1,2,3,4,5]` filtered in controller |
-| `/api/pair`             | `{"first":"one","second":"two"}`     |
-| `/api/path/abc`         | `"abc!"`                             |
-| `/api/args?n=3&text=PA` | `{"PA":"PAPAPA"}`                    |
+Errors are managed by the framework and returned as JSON:
+
+```json
+{
+  "error": "Error message",
+  "type": "BadRequestException"
+}
+```
+
 
 ### Testing
 

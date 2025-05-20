@@ -58,8 +58,7 @@ class ControllerTest {
         val pair = controller.pair()
 
         // then: first and second elements match expected values
-        assertEquals("one", pair.first)
-        assertEquals("two", pair.second)
+        assertEquals("{\"first\": \"one\", \"second\": \"two\"}", pair.toJsonString())
     }
 
     /**
