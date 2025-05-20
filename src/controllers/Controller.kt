@@ -29,7 +29,7 @@ class Controller {
                 val intValue = element.value.toInt()
                 if (intValue % 2 != 0) {
                     // wrap back as JsonNumber to preserve JSON serialization
-                    JsonNumber(intValue.toDouble())
+                    JsonNumber(intValue)
                 } else null
             } else {
                 null
@@ -55,7 +55,7 @@ class Controller {
         val result = array.elements.mapNotNull { element ->
             if (element is JsonNumber) {
                 val intValue = element.value.toInt()
-                JsonNumber(intValue.toDouble())
+                JsonNumber(intValue)
             } else {
                 null
             }
