@@ -22,4 +22,13 @@ class JsonString(val value: String) : JsonValue() {
     override fun accept(visitor: JsonVisitor) {
         visitor.visit(this)
     }
+
+    /**
+     * Repeats x times the value on string like ("text" as string).repeat(n)
+     *
+     * @param n number of repeats
+     */
+    fun repeat(n:Int): String {
+        return List(n) { value }.joinToString("")
+    }
 }

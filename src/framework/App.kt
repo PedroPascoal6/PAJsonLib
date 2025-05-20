@@ -26,7 +26,7 @@ import java.util.concurrent.Executors
  *
  * @param controllers one or more controller classes annotated with @Mapping
  */
-class GetJson(vararg controllers: KClass<*>) {
+class App(vararg controllers: KClass<*>) {
 
     private data class Route(
         val segments: List<String>,
@@ -115,8 +115,14 @@ class GetJson(vararg controllers: KClass<*>) {
             // build args
             val args = route.params.map { param ->
                 when {
-                    param.findAnnotation<Path>() != null -> convert(pathVars[param.name]!!, param)
-                    param.findAnnotation<Param>() != null -> convert(queryMap[param.name]!!, param)
+                    param.findAnnotation<Path>() != null -> {
+                        val value = pathVars[param.name] ?: error("Missing path variable : ${param.name}")
+                        convert(value, param)
+                    }
+                    param.findAnnotation<Param>() != null -> {
+                        val value = queryMap[param.name] ?: error("Missing query variable : ${param.name}")
+                        convert(value, param)
+                    }
                     param.findAnnotation<Body>()  != null -> {
                         val bodyText = exchange.requestBody.bufferedReader(Charset.forName("UTF-8")).use { it.readText() }
                         parseJsonValue(bodyText)
@@ -139,7 +145,21 @@ class GetJson(vararg controllers: KClass<*>) {
             exchange.responseBody.use { it.write(body) }
         } catch (e: Exception) {
             e.printStackTrace()
-            exchange.sendResponseHeaders(500, -1)
+            val status = when (e) {
+                is BadRequestException -> 400
+                else -> 500
+            }
+
+            val errorJson = mapOf(
+                "error" to (e.message ?: "Unknown error"),
+                "type" to e::class.simpleName
+            ).toJsonValue().toJsonString()
+
+            val errorBytes = errorJson.toByteArray(Charset.forName("UTF-8"))
+
+            exchange.responseHeaders.add("Content-Type", "application/json; charset=utf-8")
+            exchange.sendResponseHeaders(status, errorBytes.size.toLong())
+            exchange.responseBody.use { it.write(errorBytes) }
         } finally {
             exchange.close()
         }
@@ -194,3 +214,4 @@ class GetJson(vararg controllers: KClass<*>) {
         }
     }
 }
+class BadRequestException(message: String) : RuntimeException(message)

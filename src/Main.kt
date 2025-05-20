@@ -1,6 +1,6 @@
-import framework.GetJson
+import framework.App
 import controllers.Controller
 
 fun main() {
-    GetJson(Controller::class).start(8080)
+    App(Controller::class).start(8080)
 }

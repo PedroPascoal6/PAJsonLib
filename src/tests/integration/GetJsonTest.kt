@@ -8,8 +8,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.ServerSocket
 import java.net.URL
-import controllers.Controller
-import framework.GetJson
+import framework.App
 
 /**
  * Integration tests for the GetJson HTTP framework, using only JUnit and HttpURLConnection.
@@ -17,7 +16,7 @@ import framework.GetJson
 class GetJsonTest {
 
     companion object {
-        private lateinit var server: GetJson
+        private lateinit var server: App
         private var port: Int = 0
 
         /**
@@ -29,7 +28,7 @@ class GetJsonTest {
             // Acquire a free port
             ServerSocket(0).use { socket -> port = socket.localPort }
             // Start the server with the Controller under test
-            server = GetJson(Controller::class)
+            server = App(Controller::class)
             server.start(port)
         }
     }

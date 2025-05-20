@@ -32,8 +32,7 @@ annotation class Param
  *
  * When this annotation is present, the framework’s dispatcher should:
  * 1. Read the request body as a raw string (e.g., via `HttpServletRequest.reader.readText()`).
- * 2. Inject that string into the annotated parameter, allowing the handler to parse it
- *    into JSON, XML, or any custom format.
+ * 2. Inject that string into the annotated parameter, allowing the handler to parse it into JSON
  *
  * Typical usage:
  * ```

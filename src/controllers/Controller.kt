@@ -19,7 +19,7 @@ class Controller {
      * @param input the JsonValue from the request body (must be a JsonArray)
      * @return a JsonArray containing only the JsonNumber elements that are odd integers
      */
-    @Mapping(value = "imp", method = "POST")
+    @Mapping(value = "odd", method = "POST")
     fun odd(@Body input: JsonValue): JsonArray {
         val array = input as? JsonArray
             ?: throw IllegalArgumentException("Expected a JSON array in request body")
@@ -28,7 +28,7 @@ class Controller {
             if (element is JsonNumber) {
                 val intValue = element.value.toInt()
                 if (intValue % 2 != 0) {
-                    // wrap back as JsonNumber to preserve JSON rendering
+                    // wrap back as JsonNumber to preserve JSON serialization
                     JsonNumber(intValue.toDouble())
                 } else null
             } else {
@@ -73,8 +73,9 @@ class Controller {
      * @return a Pair containing the strings "one" and "two"
      */
     @Mapping("pair", "POST")
-    fun pair(): Pair<String, String> {
-        return Pair("one", "two")
+    fun pair(): JsonObject {
+        val map: Map<String, Any?> = mapOf("first" to "one", "second" to "two")
+        return map.toJsonValue() as JsonObject
     }
 
     /**
@@ -101,8 +102,6 @@ class Controller {
      */
     @Mapping("args", "POST")
     fun args(@Param n: Int, @Param text: String): JsonValue {
-        return JsonObject(
-            mapOf(text to JsonString(text.repeat(n)))
-        )
+        return mapOf(text to (text.toJsonValue() as JsonString).repeat(n)).toJsonValue()
     }
 }
