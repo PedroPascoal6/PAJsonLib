@@ -5,6 +5,8 @@ import models.*
 import framework.Mapping
 import framework.Path
 import framework.Param
+import mappers.JsonMapperString
+
 /**
  * Controller for API endpoints under /api.
  */
@@ -88,7 +90,7 @@ class Controller {
      */
     @Mapping("path/{pathVar}", "POST")
     fun path(@Path pathVar: String): String {
-        return "${pathVar}!"
+        return (pathVar.toJsonValue(JsonMapperString()) as JsonString).toString()
     }
 
     /**

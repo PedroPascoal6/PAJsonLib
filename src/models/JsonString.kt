@@ -5,7 +5,7 @@ package models
  *
  * @property value the raw string content
  */
-class JsonString(val value: String) : JsonValue() {
+class JsonString(var value: String) : JsonValue() {
 
     /**
      * Serializes this string to its JSON string representation, escaping quotes.
@@ -30,5 +30,20 @@ class JsonString(val value: String) : JsonValue() {
      */
     fun repeat(n:Int): String {
         return List(n) { value }.joinToString("")
+    }
+
+    /**
+     * Append to current value other string
+     */
+    fun append(str:String): JsonString {
+         value = value + str
+        return this
+    }
+
+    /**
+     * Convert to String
+     */
+    override fun toString():String{
+        return value
     }
 }
